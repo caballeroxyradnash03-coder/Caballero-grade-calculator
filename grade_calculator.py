@@ -49,6 +49,19 @@ def get_transmuted_grade(percentage):
     else:
         return 5.00
 
+def get_academic_remarks(percentage):
+    """Determine academic standing and honors based on grade percentage."""
+    if percentage >= 97.0:
+        return "PASSED (President's Lister / Highest Honors)"
+    elif percentage >= 94.0:
+        return "PASSED (Dean's Lister / High Honors)"
+    elif percentage >= 90.0:
+        return "PASSED (With Honors)"
+    elif percentage >= 75.0:
+        return "PASSED (Satisfactory)"
+    else:
+        return "FAILED (Needs Remedial / Retake Course)"
+
 def get_valid_score(prompt, min_val=0.0, max_val=100.0):
     """Safely prompt user for a float score within range."""
     while True:
@@ -89,6 +102,7 @@ def run_grade_calculator():
     final_percentage = calculate_weighted_average(scores, weights)
     transmuted = get_transmuted_grade(final_percentage)
     letter = get_letter_grade(final_percentage)
+    remarks = get_academic_remarks(final_percentage)
 
     print("\n--------------------------------------------------")
     print(f"GRADE REPORT: {student_name} | {subject_code}")
@@ -101,10 +115,17 @@ def run_grade_calculator():
     print(f"Final Percentage : {final_percentage:.2f}%")
     print(f"Collegiate Grade : {transmuted:.2f}")
     print(f"Letter Grade     : {letter}")
+    print(f"Academic Remarks : {remarks}")
     print("==================================================\n")
 
 def main():
-    run_grade_calculator()
+    while True:
+        run_grade_calculator()
+        again = input("Do you want to compute another grade? (y/n): ").strip().lower()
+        if again != 'y':
+            print("Thank you for using the Grade Calculator! Exiting...")
+            break
+        print("\n")
 
 if __name__ == "__main__":
     main()
